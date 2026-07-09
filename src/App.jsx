@@ -31,7 +31,7 @@ const projects = [
     name: 'Flix React',
     desc: 'A movie app with search, login, and recommendation-focused browsing flows.',
     tags: ['React', 'Firebase', 'TMDB API'],
-    link: 'https://github.com/celestiahall44',
+    link: 'https://github.com/celestiahall44/React-FinalNew',
     tone: 'orange',
     icon: 'Flix',
   },
