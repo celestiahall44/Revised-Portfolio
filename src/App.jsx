@@ -179,16 +179,23 @@ function App() {
   const onSubmit = async (e) => {
     e.preventDefault()
 
-    if (!serviceId || !templateId || !publicKey) {
-      setSendError('Email service is not configured yet. Add your EmailJS keys in .env.')
-      return
-    }
-
     const form = e.currentTarget
     const formData = new FormData(form)
     const name = String(formData.get('name') || '').trim()
     const email = String(formData.get('email') || '').trim()
     const message = String(formData.get('message') || '').trim()
+
+    if (!serviceId || !templateId || !publicKey) {
+      setSendError('Email service is not configured yet. Your mail app will open with your message ready to send.')
+      if (typeof window !== 'undefined') {
+        const subject = encodeURIComponent(`Portfolio contact from ${name || 'a visitor'}`)
+        const body = encodeURIComponent(
+          `Name: ${name}\nEmail: ${email}\n\n${message}`,
+        )
+        window.location.href = `mailto:celestia.hall44@gmail.com?subject=${subject}&body=${body}`
+      }
+      return
+    }
 
     setSending(true)
     setSendError('')
@@ -199,8 +206,12 @@ function App() {
         templateId,
         {
           to_email: 'celestia.hall44@gmail.com',
+          name,
+          email,
           from_name: name,
           from_email: email,
+          user_name: name,
+          user_email: email,
           message,
         },
         { publicKey },
@@ -209,8 +220,16 @@ function App() {
       setSent(true)
       form.reset()
       setTimeout(() => setSent(false), 3500)
-    } catch {
-      setSendError('Message failed to send. Please try again in a moment.')
+    } catch (error) {
+      console.error('EmailJS failed:', error)
+      setSendError('EmailJS is unavailable right now. Your mail app will open with your message ready to send.')
+      if (typeof window !== 'undefined') {
+        const subject = encodeURIComponent(`Portfolio contact from ${name || 'a visitor'}`)
+        const body = encodeURIComponent(
+          `Name: ${name}\nEmail: ${email}\n\n${message}`,
+        )
+        window.location.href = `mailto:celestia.hall44@gmail.com?subject=${subject}&body=${body}`
+      }
     } finally {
       setSending(false)
     }
