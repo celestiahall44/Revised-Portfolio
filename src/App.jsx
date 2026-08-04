@@ -28,12 +28,12 @@ const projects = [
     icon: 'Ultraverse',
   },
   {
-    name: 'Flix React',
-    desc: 'A movie app with search, login, and recommendation-focused browsing flows.',
-    tags: ['React', 'Firebase', 'TMDB API'],
-    link: 'https://github.com/celestiahall44/React-FinalNew',
+    name: 'Just Dig It',
+    desc: 'A modern, polished web experience centered on a digging-focused brand with strong visual storytelling and a clear conversion flow.',
+    tags: ['React', 'Vite', 'Responsive UI'],
+    link: 'https://github.com/celestiahall44/Just-Dig-It',
     tone: 'orange',
-    icon: 'Flix',
+    icon: 'Just Dig It',
   },
   {
     name: 'Skintristic',
