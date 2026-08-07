@@ -1,15 +1,25 @@
 import { useEffect, useRef, useState } from 'react'
 import emailjs from '@emailjs/browser'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 import './App.css'
 
 const projects = [
   {
-    name: 'Netflix Clone',
-    desc: 'A streaming UI with auth, movie browsing, and a polished player experience.',
-    tags: ['React', 'Firebase', 'TMDB API'],
-    link: 'https://github.com/celestiahall44/Netflix-Clone',
-    tone: 'red',
-    icon: 'NETFLIX',
+    name: 'Just Dig It',
+    desc: 'A modern, polished web experience centered on a digging-focused brand with strong visual storytelling and a clear conversion flow.',
+    tags: ['React', 'Vite', 'Responsive UI'],
+    link: 'https://github.com/celestiahall44/Just-Dig-It',
+    tone: 'orange',
+    icon: 'Just Dig It',
+  },
+  {
+    name: 'Skinstric',
+    desc: 'An AI-inspired skincare experience with personalized recommendations and clean UX.',
+    tags: ['React', 'Next.js', 'Tailwind'],
+    link: 'https://github.com/celestiahall44/Skintristic',
+    tone: 'rose',
+    icon: 'Skinstric',
   },
   {
     name: 'Summarist',
@@ -20,28 +30,12 @@ const projects = [
     icon: 'Summarist',
   },
   {
-    name: 'Ultraverse Internship',
+    name: 'Ultraverse',
     desc: 'An internship platform with application tracking, dashboards, and smooth onboarding.',
     tags: ['Next.js', 'Node.js', 'Tailwind'],
     link: 'https://github.com/celestiahall44/celestia-internship',
     tone: 'indigo',
     icon: 'Ultraverse',
-  },
-  {
-    name: 'Just Dig It',
-    desc: 'A modern, polished web experience centered on a digging-focused brand with strong visual storytelling and a clear conversion flow.',
-    tags: ['React', 'Vite', 'Responsive UI'],
-    link: 'https://github.com/celestiahall44/Just-Dig-It',
-    tone: 'orange',
-    icon: 'Just Dig It',
-  },
-  {
-    name: 'Skintristic',
-    desc: 'An AI-inspired skincare experience with personalized recommendations and clean UX.',
-    tags: ['React', 'Next.js', 'Tailwind'],
-    link: 'https://github.com/celestiahall44/Skintristic',
-    tone: 'rose',
-    icon: 'Skintristic',
   },
 ]
 
@@ -59,23 +53,18 @@ const skills = [
   'NLP',
 ]
 
-function useReveal() {
+function useScrollAos() {
   useEffect(() => {
-    const items = document.querySelectorAll('[data-reveal]')
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
-            io.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.15 },
-    )
+    AOS.init({
+      duration: 550,
+      delay: 20,
+      once: true,
+      easing: 'ease-out-cubic',
+      offset: 28,
+      mirror: false,
+    })
 
-    items.forEach((item) => io.observe(item))
-    return () => io.disconnect()
+    AOS.refresh()
   }, [])
 }
 
@@ -144,7 +133,7 @@ function App() {
   const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
   const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 
-  useReveal()
+  useScrollAos()
   useStarfield(heroCanvasRef)
 
   useEffect(() => {
@@ -246,7 +235,7 @@ function App() {
     <div className="site-wrap">
       <nav className={`top-nav ${scrolled ? 'top-nav--solid' : ''}`}>
         <a href="#home" className="logo-mark">
-          Celestia <span>✦</span>
+          Celestial Studio<span>LLC</span>
         </a>
         <div className="nav-links">
           <a href="#about">About</a>
@@ -261,12 +250,12 @@ function App() {
       <header id="home" className="hero-header">
         <canvas ref={heroCanvasRef} className="hero-stars" aria-hidden="true" />
         <div className="hero-content">
-          <p className="eyebrow">Frontend Developer</p>
-          <h1>Hi, I&apos;m Celestia</h1>
-          <p className="hero-copy">
+          <p className="eyebrow hero-entrance hero-entrance--1">Frontend Developer</p>
+          <h1 className="hero-entrance hero-entrance--2">Hi, I&apos;m Celestia</h1>
+          <p className="hero-copy hero-entrance hero-entrance--3">
             Building creative, thoughtful web experiences from the mountains of Polson, Montana.
           </p>
-          <div className="hero-cta">
+          <div className="hero-cta hero-entrance hero-entrance--4">
             <a className="btn btn--solid" href="#contact">
               Get in touch
             </a>
@@ -282,7 +271,7 @@ function App() {
       </header>
 
       <section id="about" className="about-section">
-        <div className="container split" data-reveal>
+        <div className="container split" data-aos="fade-up">
           <div>
             <h2>About Me</h2>
             <div className="line" />
@@ -323,13 +312,18 @@ function App() {
 
       <section id="work" className="work-section">
         <div className="container">
-          <div className="section-head" data-reveal>
+          <div className="section-head" data-aos="fade-up">
             <h2>Featured Projects</h2>
             <p>A selection of apps I&apos;ve designed and built while learning.</p>
           </div>
           <div className="project-grid">
-            {projects.map((project) => (
-              <article className="project-card" data-reveal key={project.name}>
+            {projects.map((project, index) => (
+              <article
+                className="project-card"
+                data-aos="fade-up"
+                data-aos-delay={index * 70}
+                key={project.name}
+              >
                 <div className={`project-top project-top--${project.tone}`}>
                   <span>{project.icon}</span>
                 </div>
@@ -353,7 +347,7 @@ function App() {
 
       <section id="experience" className="journey-section">
         <div className="container split split--journey">
-          <div data-reveal>
+          <div data-aos="fade-up">
             <h3>Experience</h3>
             <div className="timeline">
               <article>
@@ -374,7 +368,7 @@ function App() {
             </div>
           </div>
 
-          <div data-reveal>
+          <div data-aos="fade-up" data-aos-delay="80">
             <h3>Education</h3>
             <div className="edu-cards">
               <article>
@@ -401,7 +395,7 @@ function App() {
       </section>
 
       <section id="contact" className="contact-section">
-        <div className="container narrow" data-reveal>
+        <div className="container narrow" data-aos="fade-up">
           <p className="eyebrow">Let&apos;s connect</p>
           <h2>Have a project in mind?</h2>
           <p>
@@ -416,7 +410,7 @@ function App() {
             </div>
             <textarea required name="message" rows={4} placeholder="Tell me about your project..." />
             <button type="submit" disabled={sending}>
-              {sending ? 'Sending...' : sent ? "Thanks! I'll be in touch ✦" : 'Send message'}
+              {sending ? 'Sending...' : sent ? "Thanks! I'll be in touch soon." : 'Send message'}
             </button>
             {sendError ? <p className="form-error">{sendError}</p> : null}
           </form>
@@ -437,7 +431,7 @@ function App() {
           </a>
           <a href="mailto:celestia.hall44@gmail.com">Email</a>
         </div>
-        <p>© 2026 Celestia Hall · Crafted among the stars ✦</p>
+        <p>© 2026 Celestia Hall · Frontend Developer</p>
       </footer>
     </div>
   )
